@@ -13,4 +13,5 @@ module com.example.numbersmatch {
 
     opens com.example.numbersmatch to javafx.fxml;
     exports com.example.numbersmatch;
+    exports Vista;
 }
