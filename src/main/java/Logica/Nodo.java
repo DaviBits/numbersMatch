@@ -10,15 +10,15 @@ import java.util.ArrayList;
  * @version 01 2026
  */
 public class Nodo {
-    private int number; // INFO part
+    private Casilla dato; // INFO part
     private Nodo up, down,
             left, right,
             downLeft, downRight,
             upLeft, upRight;
 
 
-    public Nodo(int number) {
-        this.number = number;
+    public Nodo(Casilla casilla) {
+        this.dato = casilla;
         up = null;
         down = null;
         left = null;
@@ -36,7 +36,15 @@ public class Nodo {
      * nothing points to it anymore.
      */
     public void delete() {
-
+        if (up != null) up.setDown(null);
+        if (down != null) down.setUp(null);
+        if (left != null) left.setRight(null);
+        if (right != null) right.setLeft(null);
+        if (upLeft != null) upLeft.setDownRight(null);
+        if (upRight != null) upRight.setDownLeft(null);
+        if (downLeft != null) downLeft.setUpRight(null);
+        if (downRight != null) downRight.setUpLeft(null);
+        up = down = left = right = upLeft = upRight = downLeft = downRight = null;
     }
     /**
      * Returns whether input Nodo is next to
@@ -44,7 +52,12 @@ public class Nodo {
      * @return true if Nodos are next to each other
      */
     public boolean isNeighbor(Nodo input) {
-        return true; //PLACEHOLDER
+        if (input == null) return false;
+
+        return input == up || input == down ||
+                input == left || input == right ||
+                input == upLeft || input == upRight ||
+                input == downLeft || input == downRight;
     }
     /**
      * Returns whether input Nodo contains same value or
@@ -52,7 +65,13 @@ public class Nodo {
      * @return true if Nodos contain the same value or add up to 10
      */
     public boolean isMatchValue(Nodo input) {
-        return true; //PLACEHOLDER
+        if (input == null || input.getDato() == null) return false;
+
+        Casilla c1 = this.dato;
+        Casilla c2 = input.getDato();
+
+        // Usamos la lógica de la clase Casilla
+        return c1.esIgualA(c2) || c1.sumaDiez(c2);
     }
 
 
@@ -136,17 +155,17 @@ public class Nodo {
     }
 
 
-    public int getNumber() {
-        return number;
+    public Casilla getDato() {
+        return dato;
     }
-    public void setNumber(int number) {
-        this.number = number;
+    public void setDato(Casilla dato) {
+        this.dato = dato;
     }
 
 
     @Override
     public String toString() {
-        return number + "";
+        return "|"+dato+"|";
     }
 
 
@@ -157,6 +176,17 @@ public class Nodo {
 
 
     public ArrayList<Nodo> getNeighbors() {
-        return  null;//PLACEHOLDER
+        ArrayList<Nodo> neighbors = new ArrayList<>();
+
+        if (up != null) neighbors.add(up);
+        if (down != null) neighbors.add(down);
+        if (left != null) neighbors.add(left);
+        if (right != null) neighbors.add(right);
+        if (upLeft != null) neighbors.add(upLeft);
+        if (upRight != null) neighbors.add(upRight);
+        if (downLeft != null) neighbors.add(downLeft);
+        if (downRight != null) neighbors.add(downRight);
+
+        return neighbors;
     }
 }
